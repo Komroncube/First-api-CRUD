@@ -1,14 +1,4 @@
 ﻿using Domain.Entities;
-using Mapster;
-using Microsoft.EntityFrameworkCore;
-using Service.DataContext;
-using Service.Dtos;
-using Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Service.Services
 {
@@ -18,23 +8,27 @@ namespace Service.Services
 
         public CompanyRepository(AppDbContext appDbContext)
         {
-            this._dbContext = appDbContext;
+            _dbContext = appDbContext;
         }
+
         public async Task CreateCompanyAsync(CreateCompanyDto company)
         {
-            var companycreate = new Company()
+            if (company is CreateCompanyDto createCompanyDto)
             {
-                Address = company.Address,
-                Email = company.Email,
-                Phone = company.Phone,
-                Name = company.Name,
-                Id = Guid.NewGuid(),
-            };
+                var companyCreate = new Company()
+                {
+                    Address = createCompanyDto.Address,
+                    Email = createCompanyDto.Email,
+                    Phone = createCompanyDto.Phone,
+                    Name = createCompanyDto.Name,
+                    Id = Guid.NewGuid(),
+                };
 
-
-            await _dbContext.Companies.AddAsync(companycreate);
-            await _dbContext.SaveChangesAsync();
+                await _dbContext.Companies.AddAsync(companyCreate);
+                await _dbContext.SaveChangesAsync();
+            }
         }
+
 
         public async Task DeleteCompanyAsync(Guid id)
         {
@@ -45,31 +39,36 @@ namespace Service.Services
                 await _dbContext.SaveChangesAsync();
             }
         }
-
-        public async Task<List<CreateCompanyDto>> GetAllCompanysAsync()
+ 
+        public async Task<List<ResultCompanyDto>> GetAllCompaniesAsync()
         {
-            var companies = await _dbContext.Companies.ToArrayAsync();
-            var companyDto = companies.Select(x => new CreateCompanyDto(x)).ToList();
-            return companyDto;
+            var entities = await _dbContext.Companies.ToListAsync();
+            var companies = new List<ResultCompanyDto>();
+            foreach(var company in entities)
+            {
+                var obj = company.MapResultCompany();
+                companies.Add(obj);
+            }
+            return companies;
         }
 
-        public async Task<CreateCompanyDto?> GetCompanyByIdAsync(Guid id)
+        
+
+        public async Task<ResultCompanyDto> GetCompanyByIdAsync(Guid id)
         {
             var company = await _dbContext.Companies.FindAsync(id);
-            if (company != null)
-            {
-                return new CreateCompanyDto(company);
-            }
-            return null;
+            return company.MapResultCompany();
         }
 
-        public async Task UpdateCompanyAsync(CreateCompanyDto company)
+
+        public async Task UpdateCompanyAsync(Guid id, CreateCompanyDto company)
         {
-            var entity = await _dbContext.Companies.SingleOrDefaultAsync(x => x.Email == company.Email);
+            var entity = await _dbContext.Companies.SingleOrDefaultAsync(x => x.Id == id);
             if (entity != null)
             {
                 entity.Name=company.Name;
                 entity.Phone=company.Phone;
+                entity.Email=company.Email;
                 entity.Address=company.Address;
             }
             await _dbContext.SaveChangesAsync();
