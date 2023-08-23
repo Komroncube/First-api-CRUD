@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Service.DataContext;
 using Service.Interfaces;
 using Service.Services;
+using System.Net;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,5 +33,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.Run();
