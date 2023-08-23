@@ -1,4 +1,4 @@
-﻿using Eclo.Application.Exceptions;
+﻿/*using Eclo.Application.Exceptions;
 using Newtonsoft.Json;
 
 namespace Eclo.WebApi.Middlewares;
@@ -47,3 +47,4 @@ public class ExceptionHandlerMiddleware
 
     }
 }
+*/
