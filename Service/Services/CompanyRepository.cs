@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using Service.DataContext;
 using Service.Dtos;
 using Service.Interfaces;
@@ -35,24 +36,43 @@ namespace Service.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task DeleteCompanyAsync(Guid id)
+        public async Task DeleteCompanyAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _dbContext.Companies.FindAsync(id);
+            if (entity != null)
+            {
+                _dbContext.Companies.Remove(entity);
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
-        public Task<List<CreateCompanyDto>> GetAllCompanysAsync()
+        public async Task<List<CreateCompanyDto>> GetAllCompanysAsync()
         {
-            throw new NotImplementedException();
+            var companies = await _dbContext.Companies.ToArrayAsync();
+            var companyDto = companies.Select(x => new CreateCompanyDto(x)).ToList();
+            return companyDto;
         }
 
-        public Task<CreateCompanyDto> GetCompanyByIdAsync(Guid id)
+        public async Task<CreateCompanyDto?> GetCompanyByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var company = await _dbContext.Companies.FindAsync(id);
+            if (company != null)
+            {
+                return new CreateCompanyDto(company);
+            }
+            return null;
         }
 
-        public Task UpdateCompanyAsync(CreateCompanyDto company)
+        public async Task UpdateCompanyAsync(CreateCompanyDto company)
         {
-            throw new NotImplementedException();
+            var entity = await _dbContext.Companies.SingleOrDefaultAsync(x => x.Email == company.Email);
+            if (entity != null)
+            {
+                entity.Name=company.Name;
+                entity.Phone=company.Phone;
+                entity.Address=company.Address;
+            }
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Dtos;
 using Service.Interfaces;
@@ -19,6 +20,28 @@ namespace firstApi.Controllers
         {
             await _companyRepository.CreateCompanyAsync(createCompanyDto);
             return Ok("Created");
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateCompanyAsync([FromForm] CreateCompanyDto updateCompany)
+        {
+            await _companyRepository.UpdateCompanyAsync(updateCompany);
+            return Ok("Updated");
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCompanyAsync(Guid id)
+        {
+            await _companyRepository.DeleteCompanyAsync(id);
+            return Ok("Deleted");
+        }
+        [HttpGet("{id}")]
+        public async Task<CreateCompanyDto?> GetCompanyById(Guid id)
+        {
+            return await _companyRepository.GetCompanyByIdAsync(id);
+        }
+        [HttpGet]
+        public async Task<List<CreateCompanyDto>> GetAllCompanies()
+        {
+            return await _companyRepository.GetAllCompanysAsync();
         }
     }
 }
