@@ -1,14 +1,11 @@
-﻿using Domain.Entities;
-using Service.Dtos;
-
-namespace Service.Interfaces
+﻿namespace Service.Interfaces
 {
     public interface ICompanyRepository
     {
-        public Task CreateCompanyAsync(CreateCompanyDto company);
-        public Task DeleteCompanyAsync(Guid id);
-        public Task<CreateCompanyDto?> GetCompanyByIdAsync(Guid id);
-        public Task<List<CreateCompanyDto>> GetAllCompanysAsync();
-        public Task UpdateCompanyAsync(CreateCompanyDto company);
+        public Task CreateCompanyAsync(CreateCompanyDto createCompanyDto);
+        public Task UpdateCompanyAsync(Guid id, CreateCompanyDto updateCompanyDto);
+        public Task DeleteCompanyAsync(Guid companyId);
+        public Task<ResultCompanyDto> GetCompanyByIdAsync(Guid id);
+        public Task<List<ResultCompanyDto>> GetAllCompaniesAsync();
     }
 }
