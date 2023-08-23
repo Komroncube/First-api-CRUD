@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Service.Dtos;
+using Service.Dtos.Companies;
 using Service.Interfaces;
 
 namespace firstApi.Controllers
@@ -22,9 +22,9 @@ namespace firstApi.Controllers
             return Ok("Created");
         }
         [HttpPut]
-        public async Task<IActionResult> UpdateCompanyAsync([FromForm] CreateCompanyDto updateCompany)
+        public async Task<IActionResult> UpdateCompanyAsync([FromForm] Guid id, CreateCompanyDto updateCompany)
         {
-            await _companyRepository.UpdateCompanyAsync(updateCompany);
+            await _companyRepository.UpdateCompanyAsync(id, updateCompany);
             return Ok("Updated");
         }
         [HttpDelete("{id}")]
@@ -34,14 +34,14 @@ namespace firstApi.Controllers
             return Ok("Deleted");
         }
         [HttpGet("{id}")]
-        public async Task<CreateCompanyDto?> GetCompanyById(Guid id)
+        public async Task<ResultCompanyDto> GetCompanyById(Guid id)
         {
             return await _companyRepository.GetCompanyByIdAsync(id);
         }
         [HttpGet]
-        public async Task<List<CreateCompanyDto>> GetAllCompanies()
+        public async Task<List<ResultCompanyDto>> GetAllCompanies()
         {
-            return await _companyRepository.GetAllCompanysAsync();
+            return await _companyRepository.GetAllCompaniesAsync();
         }
     }
 }
