@@ -1,11 +1,12 @@
 ﻿using Domain.Entities;
+using Service.Services.Mapping;
 
 namespace Service.Services
 {
     public class CompanyRepository : ICompanyRepository
     {
         private readonly AppDbContext _dbContext;
-
+        
         public CompanyRepository(AppDbContext appDbContext)
         {
             _dbContext = appDbContext;
@@ -58,6 +59,7 @@ namespace Service.Services
         {
             var company = await _dbContext.Companies.FindAsync(id);
             return company.MapResultCompany();
+            //return map.Map(company);
         }
 
 
