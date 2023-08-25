@@ -1,7 +1,9 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Service.Dtos.StaffsDto;
 using Service.Interfaces;
+using System.Xml;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,9 +27,14 @@ namespace firstApi.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public async Task<List<Employee>> GetAllEmployeesByStaffIdAsync(Guid id)
+        public async Task<string> GetAllEmployeesByStaffIdAsync(Guid id)
         {
-            return await _staffRepository.GetEmployeeByStaffIdAsync(id);
+            var result =  _staffRepository.GetEmployeeByStaffIdAsync(id).Result;
+            string json = JsonConvert.SerializeObject(result, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            return json;
         }
 
         // POST api/<ValuesController>
