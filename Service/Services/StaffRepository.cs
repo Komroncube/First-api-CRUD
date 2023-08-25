@@ -29,7 +29,6 @@ namespace Service.Services
                     if(employee is not null)
                     {
                         staff.Employees.Add(employee);
-
                     }
 
                 }
@@ -65,12 +64,13 @@ namespace Service.Services
 
         
 
-        public async Task<List<Employee>> GetEmployeeByStaffIdAsync(Guid staffId)
+        public async Task<IEnumerable<Employee>> GetEmployeeByStaffIdAsync(Guid staffId)
         {
             var staff = await _dbContext.Staffs.Include(e => e.Employees)
                 .FirstOrDefaultAsync(s => s.Id == staffId);
+            var employee = staff.Employees.ToList();
             if (staff is not null)
-                return staff.Employees.ToList();
+                return employee;
             return null;
         }
 
