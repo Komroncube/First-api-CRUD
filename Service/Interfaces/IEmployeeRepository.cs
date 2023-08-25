@@ -2,10 +2,10 @@
 {
     public interface IEmployeeRepository
     {
-        public Task CreateEmployeeAsync(CreateCompanyDto entity);
+        public Task CreateEmployeeAsync(CreateEmployeeDto entity);
         public Task DeleteEmployeeAsync(Guid id);
         public Task<List<ResultEmployeeDto>> GetAllEmployeesAsync();
-        public Task<ResultCompanyDto> GetEmployeeByIdAsync(Guid id);
-        public Task UpdateEmployeeAsync(Guid id, CreateCompanyDto entity);
+        public Task<ResultEmployeeDto> GetEmployeeByIdAsync(Guid id);
+        public Task UpdateEmployeeAsync(Guid id, CreateEmployeeDto entity);
     }
 }
