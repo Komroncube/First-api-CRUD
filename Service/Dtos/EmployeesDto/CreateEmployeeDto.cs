@@ -1,6 +1,6 @@
 ﻿namespace Service.Dtos.Employees
 {
-    public class ResultEmployeeDto
+    public class CreateEmployeeDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
