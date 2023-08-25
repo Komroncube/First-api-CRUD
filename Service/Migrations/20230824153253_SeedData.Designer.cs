@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Service.DataContext;
@@ -11,9 +12,11 @@ using Service.DataContext;
 namespace Service.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230824153253_SeedData")]
+    partial class SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,7 +86,7 @@ namespace Service.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e296abf2-3d46-479e-82bc-baaba0c2c66c"),
+                            Id = new Guid("c143b841-edfa-4e90-bce0-d248791f6aba"),
                             CompanyId = new Guid("00000000-0000-0000-0000-000000000000"),
                             Email = "kamolsobir@gmail.com",
                             FirstName = "Kamol",
