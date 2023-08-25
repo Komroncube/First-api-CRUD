@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Dtos.Companies;
+using Service.Dtos.Employees;
 using Service.Interfaces;
 
 namespace firstApi.Controllers
