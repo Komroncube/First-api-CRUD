@@ -19,6 +19,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(
     ));
 
 builder.Services.AddTransient<ICompanyRepository, CompanyRepository>();
+builder.Services.AddTransient<IStaffRepository, StaffRepository>();
+builder.Services.AddTransient<IEmployeeRepository, EmployeeRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
